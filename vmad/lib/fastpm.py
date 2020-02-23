@@ -441,10 +441,9 @@ def KickFactor(pt, ai, ac, af):
 def DriftFactor(pt, ai, ac, af):
     return 1 / (ac ** 3 * pt.E(ac)) * (pt.Gp(af) - pt.Gp(ai)) / pt.gp(ac)
 
-@autooperator('dx_i,p_i->dx,p,f')
-def leapfrog(dx_i, p_i, q, stages, pt, pm):
+@autooperator('dx_i,p_i, Om0->dx,p,f')
+def leapfrog(dx_i, p_i,Om0, q, stages, pt, pm):
 
-    Om0 = pt.Om0
 
     dx = dx_i
     p = p_i
@@ -492,19 +491,19 @@ def firststep(rhok, q, a, pt, pm):
     dx = dx1 + dx2
     return dict(dx=dx, p=p)
 
-@autooperator('rhok->dx,p,f')
-def nbody(rhok, q, stages, cosmology, pm):
+@autooperator('rhok, Om0->dx,p,f')
+def nbody(rhok,Om0, q, stages, cosmology, pm):
     from fastpm.background import MatterDominated
 
     stages = numpy.array(stages)
     mid = (stages[1:] * stages[:-1]) ** 0.5
     support = numpy.concatenate([mid, stages])
     support.sort()
-    pt = MatterDominated(cosmology.Om0, a=support)
+    pt = MatterDominated(Om0, a=support)
 
     dx, p = firststep(rhok, q, stages[0], pt, pm)
 
-    dx, p, f = leapfrog(dx, p, q, stages, pt, pm)
+    dx, p, f = leapfrog(dx, p, Om0, q, stages, pt, pm)
 
     return dict(dx=dx, p=p, f=f)
 
@@ -526,7 +525,7 @@ class cdot:
         return dict(y_=x1.cdot(x2_).real + x2.cdot(x1_).real)
 
 class FastPMSimulation:
-    def __init__(self, stages, cosmology, pm, B=1, q=None):
+    def __init__(self, stages, Om0, cosmology, pm, B=1, q=None):
         from fastpm.background import MatterDominated
 
         if q is None:
@@ -536,7 +535,7 @@ class FastPMSimulation:
         mid = (stages[1:] * stages[:-1]) ** 0.5
         support = numpy.concatenate([mid, stages])
         support.sort()
-        pt = MatterDominated(cosmology.Om0, a=support)
+        pt = MatterDominated(Om0, a=support)
         self.stages = stages
         self.pt = pt
         self.pm = pm
@@ -612,16 +611,14 @@ class FastPMSimulation:
         f = linalg.stack(r1, axis=-1)
         return dict(f=f, potk=p)
 
-    @autooperator('rhok->dx,p,f')
-    def run(self, rhok):
+    @autooperator('rhok, Om0->dx,p,f')
+    def run(self, rhok, Om0):
 
         dx, p = self.firststep(rhok)
 
         pt = self.pt
         stages = self.stages
         q = self.q
-
-        Om0 = pt.Om0
 
         f, potk = self.gravity(dx)
 
