@@ -525,7 +525,7 @@ class cdot:
         return dict(y_=x1.cdot(x2_).real + x2.cdot(x1_).real)
 
 class FastPMSimulation:
-    def __init__(self, stages, Om0, cosmology, pm, B=1, q=None):
+    def __init__(self, stages, cosmology, pm, B=1, q=None):
         from fastpm.background import MatterDominated
 
         if q is None:
@@ -535,7 +535,7 @@ class FastPMSimulation:
         mid = (stages[1:] * stages[:-1]) ** 0.5
         support = numpy.concatenate([mid, stages])
         support.sort()
-        pt = MatterDominated(Om0, a=support)
+        pt = MatterDominated(cosmology.Om0, a=support)
         self.stages = stages
         self.pt = pt
         self.pm = pm
