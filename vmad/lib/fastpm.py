@@ -435,16 +435,21 @@ def gravity(dx, q, pm):
     f = linalg.stack(r1, axis=-1)
     return dict(f=f, potk=p)
 
-def KickFactor(pt, ai, ac, af):
+def KickFactor(Om0, support, ai, ac, af):
+    pt = MatterDominated(Om0, a=support)
     return 1 / (ac ** 2 * pt.E(ac)) * (pt.Gf(af) - pt.Gf(ai)) / pt.gf(ac)
 
-def DriftFactor(pt, ai, ac, af):
+def DriftFactor(Om0, support, ai, ac, af):
+    pt = MatterDominated(Om0, a=support)
     return 1 / (ac ** 3 * pt.E(ac)) * (pt.Gp(af) - pt.Gp(ai)) / pt.gp(ac)
 
-@autooperator('dx_i,p_i->dx,p,f')
-def leapfrog(dx_i, p_i, q, stages, pt, pm):
+@autooperator('Om0, dx_i,p_i->dx,p,f')
+def leapfrog(Om0, dx_i, p_i, q, stages, pm):
 
-    Om0 = pt.Om0
+    stages = numpy.array(stages)
+    mid = (stages[1:] * stages[:-1]) ** 0.5
+    support = numpy.concatenate([mid, stages])
+    support.sort()
 
     dx = dx_i
     p = p_i
@@ -454,18 +459,18 @@ def leapfrog(dx_i, p_i, q, stages, pt, pm):
         ac = (ai * af) ** 0.5
 
         # kick
-        dp = f * (KickFactor(pt, ai, ai, ac) * 1.5 * Om0)
+        dp = f * (KickFactor(Om0, support, ai, ai, ac) * 1.5 * Om0)
         p = p + dp
 
         # drift
-        ddx = p * DriftFactor(pt, ai, ac, af)
+        ddx = p * DriftFactor(Om0, support, ai, ac, af)
         dx = dx + ddx
 
         # force
         f, potk = gravity(dx, q, pm)
 
         # kick
-        dp = f * (KickFactor(pt, ac, af, af) * 1.5 * Om0)
+        dp = f * (KickFactor(Om0, support, ac, af, af) * 1.5 * Om0)
         p = p + dp
 
     f = f * (1.5 * Om0)
