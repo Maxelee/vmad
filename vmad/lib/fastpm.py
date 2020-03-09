@@ -534,8 +534,8 @@ class FastPMSimulation:
 
         stages = numpy.array(stages)
         mid = (stages[1:] * stages[:-1]) ** 0.5
-        support = numpy.concatenate([mid, stages])
-        support.sort()
+        self.support = numpy.concatenate([mid, stages])
+        self.support.sort()
         pt = MatterDominated(cosmology.Om0, a=support)
         self.stages = stages
         self.pt = pt
@@ -547,12 +547,12 @@ class FastPMSimulation:
                         resampler=pm.resampler)
         self.q = q
 
-    def KickFactor(self, ai, ac, af):
-        pt = self.pt
+    def KickFactor(self, ai, ac, af, Om0):
+        pt = MatterDominated(Om0, a=self.support)
         return 1 / (ac ** 2 * pt.E(ac)) * (pt.Gf(af) - pt.Gf(ai)) / pt.gf(ac)
 
-    def DriftFactor(self, ai, ac, af):
-        pt = self.pt
+    def DriftFactor(self, ai, ac, af, Om0):
+        pt = MatterDominated(Om0, a=self.support)
         return 1 / (ac ** 3 * pt.E(ac)) * (pt.Gp(af) - pt.Gp(ai)) / pt.gp(ac)
 
     @autooperator('rhok->dx, p')
