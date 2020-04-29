@@ -4,7 +4,7 @@ from vmad.core.operator import operator
 def _finite_diff(psi, func, epsilon, mode='forward'):
     """
     Find the finite differencing of a scalar function based off of an input psieter.
-    Result is the same shape as psi. 
+    Result is the same shape as psi.
 
     Parameters
     ----------
@@ -57,6 +57,6 @@ class finite_operator:
     def jvp(node, psi_, psi, func, epsilon, mode='central'):
         delta = _finite_diff(psi, lambda x: func(x), epsilon, mode=mode)
         print('finite_difference jvp', psi_, psi, delta)
-        return dict(y_=np.dot(delta, psi_))
+        return dict(y_=np.einsum('i...,i...->...', delta, psi_))
 
 
