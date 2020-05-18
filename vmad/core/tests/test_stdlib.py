@@ -87,13 +87,9 @@ def test_div_error():
     assert y == 1.5
     assert vjp == -0.75
 
-class Test_finite_vector(BaseScalarTest):
+class Test_finite_vector(BaseVectorTest):
     x = numpy.arange(10)
     y = numpy.sum(x ** 2)
-
-    @staticmethod
-    def to_scalar(x):
-        return x
 
     @staticmethod
     def func(param):
@@ -104,3 +100,29 @@ class Test_finite_vector(BaseScalarTest):
         c = finite_operator(x, lambda param: self.func(param), epsilon=1e-6)
         return c
 
+
+class Test_finite_vector_vector(BaseVectorTest):
+    x = numpy.arange(4)
+    y = numpy.arange(4)**2
+
+    @staticmethod
+    def func(param):
+        return param**2
+
+    def model(self, x):
+        from vmad.core.stdlib import finite_operator
+        c = finite_operator(x, lambda param: self.func(param), epsilon=1e-6)
+        return c
+
+# class Test_finite_vector_matrix(BaseVectorTest):
+#    x = numpy.ones((4, 4))*2
+#    y = (numpy.ones((4, 4))*2)**2
+#
+#    @staticmethod
+#    def func(param):
+#        return param**2
+#
+#    def model(self, x):
+#        from vmad.core.stdlib import finite_operator
+#        c = finite_operator(x, lambda param: self.func(param), epsilon=1e-6)
+#        return c

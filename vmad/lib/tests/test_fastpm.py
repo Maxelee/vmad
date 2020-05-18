@@ -363,10 +363,13 @@ def test_add_scalar():
     assert_array_equal(y, 4)
     assert_array_equal(_x, 1)
     assert_array_equal(_n, (64, 0))
+
+
 def test_cosmofactory():
     from vmad.lib.fastpm import CosmologyFactory
 
     cosmo = CosmologyFactory()
-    assert cosmo.get_cosmology(.3, 1) != cosmo.get_cosmology(.4, 1)
-    assert cosmo.get_cosmology(.3, 1) == cosmo.get_cosmology(.3, 1)
+
+    assert cosmo.get_cosmology(.3, a=1) is not cosmo.get_cosmology(.4, a=1)
+    assert cosmo.get_cosmology(.3, a=1) is cosmo.get_cosmology(.3, a=1)
 

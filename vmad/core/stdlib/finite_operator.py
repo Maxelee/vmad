@@ -27,14 +27,13 @@ def _finite_diff(psi, func, epsilon, mode='forward'):
 
     elif mode=='central':
         k1, k2, k3=1/2, -1/2, 1
-
-    it = np.nditer([None, psi, epsilon], flags=['multi_index'])
-    for r1, psi1, epsilon1 in it:
+    r = []
+    it = np.nditer([ psi, epsilon], flags=['multi_index'])
+    for  psi1, epsilon1 in it:
         basis = np.zeros_like(psi, dtype='f8')
         basis[it.multi_index] = 1
-        r1[...] = k3 * (func(psi + k1 * epsilon1 * basis)  - func(psi + k2 * epsilon1 * basis)) / epsilon1
-
-    return it.operands[0]
+        r.append( k3 * (func(psi + k1 * epsilon1 * basis)  - func(psi + k2 * epsilon1 * basis)) / epsilon1)
+    return np.array(r).reshape(list(it.operands[0].shape)+ list(np.array(r).shape[1:]))
 
 @operator
 class finite_operator:
@@ -56,7 +55,6 @@ class finite_operator:
 
     def jvp(node, psi_, psi, func, epsilon, mode='central'):
         delta = _finite_diff(psi, lambda x: func(x), epsilon, mode=mode)
-        print('finite_difference jvp', psi_, psi, delta)
         return dict(y_=np.einsum('i...,i...->...', delta, psi_))
 
 

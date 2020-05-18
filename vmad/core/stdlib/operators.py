@@ -64,7 +64,7 @@ class sub(binary):
         return dict(_x1 = _y, _x2 = -_y)
 
     def jvp(node, x1_, x2_):
-        return dict(y_ = x1_ + x2_)
+        return dict(y_ = x1_ - x2_)
 
 @operator
 class mul(binary):
@@ -137,12 +137,12 @@ class pow(binary):
         return dict(y=x1 ** x2, logx1=logx1)
 
     def vjp(node, _y, x1, x2, logx1):
-        fac = x1 ** (x2 - 1) if x2 != 1 else 1
+        fac = x1 ** (x2 - 1)# if x2 != 1 else 1
         return dict(_x1 = x2 * _y * fac,
                     _x2 = _y * x1**x2 * logx1)
 
     def jvp(node, x1_, x2_, x1, x2, logx1):
-        fac = x1 ** (x2 - 1) if x2 != 1 else 1
+        fac = x1 ** (x2 - 1)# if x2 != 1 else 1
         return dict(y_ = x2 * x1_ * fac + x2_ * x1**x2 * logx1)
 
 
