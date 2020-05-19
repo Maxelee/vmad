@@ -12,7 +12,6 @@ def _finite_diff(psi, func, epsilon, mode='forward'):
     func:    function for finite difference; must return a scalar.
     epsilon: amount of forward stepping in differencing, if a vector, must be the
              same shape as psi.
-    args:    further arguments, if any, for the function
 
     Returns
     -------
@@ -50,11 +49,12 @@ class finite_operator:
 
     def vjp(node, _y, psi, func, epsilon, mode='central'):
         delta = _finite_diff(psi, lambda x: func(x), epsilon, mode=mode)
-        _psi = delta * np.sum(_y)
+        _psi = np.einsum('..., ...->...', delta, _y)
         return dict(_psi=_psi)
 
     def jvp(node, psi_, psi, func, epsilon, mode='central'):
         delta = _finite_diff(psi, lambda x: func(x), epsilon, mode=mode)
+        print(delta.shape, psi.shape)
         return dict(y_=np.einsum('i...,i...->...', delta, psi_))
 
 

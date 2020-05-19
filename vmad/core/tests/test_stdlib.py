@@ -113,16 +113,3 @@ class Test_finite_vector_vector(BaseVectorTest):
         from vmad.core.stdlib import finite_operator
         c = finite_operator(x, lambda param: self.func(param), epsilon=1e-6)
         return c
-
-# class Test_finite_vector_matrix(BaseVectorTest):
-#    x = numpy.ones((4, 4))*2
-#    y = (numpy.ones((4, 4))*2)**2
-#
-#    @staticmethod
-#    def func(param):
-#        return param**2
-#
-#    def model(self, x):
-#        from vmad.core.stdlib import finite_operator
-#        c = finite_operator(x, lambda param: self.func(param), epsilon=1e-6)
-#        return c
