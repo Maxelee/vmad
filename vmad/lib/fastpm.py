@@ -570,9 +570,11 @@ class FastPMSimulation:
         self.q = q
 
     def KickFactor(self, ai, ac, af):
+        pt = self.pt
         return 1 / (ac ** 2 * pt.E(ac)) * (pt.Gf(af) - pt.Gf(ai)) / pt.gf(ac)
 
     def DriftFactor(self, ai, ac, af):
+        pt = self.pt
         return 1 / (ac ** 3 * pt.E(ac)) * (pt.Gp(af) - pt.Gp(ai)) / pt.gp(ac)
 
     @autooperator('rhok->dx, p')
