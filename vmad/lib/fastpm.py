@@ -516,7 +516,7 @@ def firststep(rhok, q, a, pt, pm):
     return dict(dx=dx, p=p)
 
 @autooperator('rhok, Om0->dx,p,f')
-def nbody(rhok,Om0, q, stages, cosmology, pm):
+def nbody(rhok, Om0, q, stages, cosmology, pm):
     from fastpm.background import MatterDominated
 
     stages = numpy.array(stages)
@@ -524,10 +524,9 @@ def nbody(rhok,Om0, q, stages, cosmology, pm):
     support = numpy.concatenate([mid, stages])
     support.sort()
     pt = CosmologyFactory().get_cosmology(Om0, support)
-
     dx, p = firststep(rhok, q, stages[0], pt, pm)
 
-    dx, p, f = leapfrog( dx, p, Om0, q, stages, pm)
+    dx, p, f = leapfrog(dx, p, Om0, q, stages, pm)
 
     return dict(dx=dx, p=p, f=f)
 
@@ -559,7 +558,8 @@ class FastPMSimulation:
         mid = (stages[1:] * stages[:-1]) ** 0.5
         self.support = numpy.concatenate([mid, stages])
         self.support.sort()
-        self.pt = MatterDominated(cosmology.Omega0_m, a=self.support)#MatterDominated(cosmology.Om0, a=self.support)
+        self.pt = CosmologyFactory().get_cosmology(cosmology.Om0, self.support)
+        #self.pt = MatterDominated(cosmology.Om0, a=self.support)
         self.stages = stages
         self.pm = pm
         self.fpm = ParticleMesh(Nmesh=pm.Nmesh * B,
@@ -570,7 +570,7 @@ class FastPMSimulation:
         self.q = q
 
     def KickFactor(self, ai, ac, af):
-        pt = self.pt
+        pt=self.pt
         return 1 / (ac ** 2 * pt.E(ac)) * (pt.Gf(af) - pt.Gf(ai)) / pt.gf(ac)
 
     def DriftFactor(self, ai, ac, af):
@@ -581,7 +581,7 @@ class FastPMSimulation:
     def firststep(self, rhok):
         q = self.q
         pm = self.pm
-        pt = self.pt
+        pt = self.pt 
         a = self.stages[0]
 
         dx1, dx2 = lpt(rhok, q, pm)
@@ -640,6 +640,7 @@ class FastPMSimulation:
         dx, p = self.firststep(rhok)
 
         pt = self.pt
+        Om0 = pt.Om0
         stages = self.stages
         q = self.q
 
@@ -649,7 +650,7 @@ class FastPMSimulation:
             ac = (ai * af) ** 0.5
 
             # kick
-            dp = f * (self.KickFactor(ai, ai, ac) * 1.5 * self.Om0)
+            dp = f * (self.KickFactor(ai, ai, ac) * 1.5 * Om0)
             p = p + dp
 
             # drift
@@ -660,10 +661,10 @@ class FastPMSimulation:
             f, potk = self.gravity(dx)
 
             # kick
-            dp = f * (self.KickFactor(ac, af, af) * 1.5 * self.Om0)
+            dp = f * (self.KickFactor(ac, af, af) * 1.5 * Om0)
             p = p + dp
 
-        f = f * (1.5 *self.Om0)
+        f = f * (1.5 *Om0)
         return dict(dx=dx, p=p, f=f)
 
 
