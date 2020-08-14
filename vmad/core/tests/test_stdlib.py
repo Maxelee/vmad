@@ -1,12 +1,11 @@
-from __future__ import print_function
+from vmad.core.model import Builder
+from vmad.lib import linalg
 
 from pprint import pprint
 import pytest
-
 from vmad.core.model import Builder
 from vmad.lib import linalg
 from vmad.testing import BaseVectorTest, BaseScalarTest
-
 import numpy
 
 def test_operator_watchpoint():
