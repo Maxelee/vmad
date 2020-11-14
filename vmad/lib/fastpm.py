@@ -437,17 +437,40 @@ def gravity(dx, q, pm):
     f = linalg.stack(r1, axis=-1)
     return dict(f=f, potk=p)
 
-def KickFactor(pt, ai, ac, af):
+def KickFactor(Om0, support, FactoryCache, ai, ac, af):
+    pt = FactoryCache.get_cosmology(Om0, a=support)
     return 1 / (ac ** 2 * pt.E(ac)) * (pt.Gf(af) - pt.Gf(ai)) / pt.gf(ac)
 
-def DriftFactor(pt, ai, ac, af):
+def DriftFactor(Om0, support, FactoryCache, ai, ac, af):
+    pt        = FactoryCache.get_cosmology(Om0, a=support)
     return 1 / (ac ** 3 * pt.E(ac)) * (pt.Gp(af) - pt.Gp(ai)) / pt.gp(ac)
 
-@autooperator('dx_i,p_i->dx,p,f')
-def leapfrog(dx_i, p_i, q, stages, pt, pm):
 
-    Om0 = pt.Om0
+class CosmologyFactory():
 
+    from fastpm.background import MatterDominated
+
+    def __init__(self):
+        self.cosmo_cache = dict()
+
+    def get_cosmology(self, Om0, a):
+        cosmo_id = hash((Om0))
+        if cosmo_id in self.cosmo_cache:
+            return self.cosmo_cache[cosmo_id]
+        pt = CosmologyFactory.MatterDominated(Om0,a=a)
+        self.cosmo_cache[cosmo_id] = pt
+        return pt
+
+
+
+@autooperator(' dx_i,p_i, Om0->dx,p,f')
+def leapfrog(dx_i, p_i, Om0, q, stages, pm):
+
+    stages = numpy.array(stages)
+    mid = (stages[1:] * stages[:-1]) ** 0.5
+    support = numpy.concatenate([mid, stages])
+    support.sort()
+    FactoryCache = CosmologyFactory()
     dx = dx_i
     p = p_i
     f, potk = gravity(dx, q, pm)
@@ -456,18 +479,18 @@ def leapfrog(dx_i, p_i, q, stages, pt, pm):
         ac = (ai * af) ** 0.5
 
         # kick
-        dp = f * (KickFactor(pt, ai, ai, ac) * 1.5 * Om0)
+        dp = f * (KickFactor(Om0, support, FactoryCache, ai, ai, ac) * 1.5 * Om0)
         p = p + dp
 
         # drift
-        ddx = p * DriftFactor(pt, ai, ac, af)
+        ddx = p * DriftFactor(Om0, support, FactoryCache, ai, ac, af)
         dx = dx + ddx
 
         # force
         f, potk = gravity(dx, q, pm)
 
         # kick
-        dp = f * (KickFactor(pt, ac, af, af) * 1.5 * Om0)
+        dp = f * (KickFactor(Om0, support, FactoryCache, ac, af, af) * 1.5 * Om0)
         p = p + dp
 
     f = f * (1.5 * Om0)
@@ -494,18 +517,17 @@ def firststep(rhok, q, a, pt, pm):
     dx = dx1 + dx2
     return dict(dx=dx, p=p)
 
-@autooperator('rhok->dx,p,f')
-def nbody(rhok, q, stages, cosmology, pm):
+@autooperator('rhok, Om0->dx,p,f')
+def nbody(rhok, Om0, q, stages, cosmology, pm):
 
     stages = numpy.array(stages)
     mid = (stages[1:] * stages[:-1]) ** 0.5
     support = numpy.concatenate([mid, stages])
     support.sort()
-    pt = MatterDominated(cosmology.Om0, a=support)
-
+    pt = CosmologyFactory().get_cosmology(Om0, support)
     dx, p = firststep(rhok, q, stages[0], pt, pm)
 
-    dx, p, f = leapfrog(dx, p, q, stages, pt, pm)
+    dx, p, f = leapfrog(dx, p, Om0, q, stages, pm)
 
     return dict(dx=dx, p=p, f=f)
 
@@ -533,11 +555,11 @@ class FastPMSimulation:
 
         stages = numpy.array(stages)
         mid = (stages[1:] * stages[:-1]) ** 0.5
-        support = numpy.concatenate([mid, stages])
-        support.sort()
-        pt = MatterDominated(cosmology.Om0, a=support)
+        self.support = numpy.concatenate([mid, stages])
+        self.support.sort()
+        self.pt = CosmologyFactory().get_cosmology(cosmology.Om0, self.support)
+        #self.pt = MatterDominated(cosmology.Om0, a=self.support)
         self.stages = stages
-        self.pt = pt
         self.pm = pm
         self.fpm = ParticleMesh(Nmesh=pm.Nmesh * B,
                         BoxSize=pm.BoxSize,
@@ -547,7 +569,7 @@ class FastPMSimulation:
         self.q = q
 
     def KickFactor(self, ai, ac, af):
-        pt = self.pt
+        pt=self.pt
         return 1 / (ac ** 2 * pt.E(ac)) * (pt.Gf(af) - pt.Gf(ai)) / pt.gf(ac)
 
     def DriftFactor(self, ai, ac, af):
@@ -558,7 +580,7 @@ class FastPMSimulation:
     def firststep(self, rhok):
         q = self.q
         pm = self.pm
-        pt = self.pt
+        pt = self.pt 
         a = self.stages[0]
 
         dx1, dx2 = lpt(rhok, q, pm)
@@ -617,10 +639,9 @@ class FastPMSimulation:
         dx, p = self.firststep(rhok)
 
         pt = self.pt
+        Om0 = pt.Om0
         stages = self.stages
         q = self.q
-
-        Om0 = pt.Om0
 
         f, potk = self.gravity(dx)
 
@@ -642,7 +663,7 @@ class FastPMSimulation:
             dp = f * (self.KickFactor(ac, af, af) * 1.5 * Om0)
             p = p + dp
 
-        f = f * (1.5 * Om0)
+        f = f * (1.5 *Om0)
         return dict(dx=dx, p=p, f=f)
 
 

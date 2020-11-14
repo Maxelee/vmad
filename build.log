@@ -1,0 +1,119 @@
+running build
+running build_py
+copying vmad/core/stdlib/finite_operator.py -> build/lib/vmad/core/stdlib
+running install
+running install_lib
+creating /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages
+creating /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad
+creating /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core
+copying build/lib/vmad/core/autooperator.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core
+copying build/lib/vmad/core/error.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core
+copying build/lib/vmad/core/registry.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core
+copying build/lib/vmad/core/tape.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core
+creating /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/tests
+copying build/lib/vmad/core/tests/test_model.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/tests
+copying build/lib/vmad/core/tests/test_registry.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/tests
+copying build/lib/vmad/core/tests/test_operator.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/tests
+copying build/lib/vmad/core/tests/test_stdlib.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/tests
+copying build/lib/vmad/core/tests/__init__.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/tests
+copying build/lib/vmad/core/tests/test_error.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/tests
+copying build/lib/vmad/core/tests/test_autooperator.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/tests
+copying build/lib/vmad/core/tests/test_symbol.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/tests
+copying build/lib/vmad/core/operator.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core
+copying build/lib/vmad/core/__init__.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core
+copying build/lib/vmad/core/symbol.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core
+copying build/lib/vmad/core/model.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core
+copying build/lib/vmad/core/context.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core
+copying build/lib/vmad/core/primitive.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core
+creating /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/stdlib
+copying build/lib/vmad/core/stdlib/__init__.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/stdlib
+copying build/lib/vmad/core/stdlib/utils.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/stdlib
+copying build/lib/vmad/core/stdlib/operators.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/stdlib
+copying build/lib/vmad/core/stdlib/finite_operator.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/stdlib
+copying build/lib/vmad/core/node.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core
+copying build/lib/vmad/core/autodiff.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core
+copying build/lib/vmad/version.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad
+creating /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/tests
+copying build/lib/vmad/tests/__init__.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/tests
+copying build/lib/vmad/tests/test_vmad3.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/tests
+copying build/lib/vmad/__init__.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad
+creating /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/contrib
+copying build/lib/vmad/contrib/__init__.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/contrib
+copying build/lib/vmad/contrib/chisquare.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/contrib
+creating /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/lib
+copying build/lib/vmad/lib/fastpm.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/lib
+copying build/lib/vmad/lib/binary.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/lib
+creating /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/lib/tests
+copying build/lib/vmad/lib/tests/test_linalg.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/lib/tests
+copying build/lib/vmad/lib/tests/test_unary.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/lib/tests
+copying build/lib/vmad/lib/tests/__init__.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/lib/tests
+copying build/lib/vmad/lib/tests/test_fastpm.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/lib/tests
+copying build/lib/vmad/lib/tests/test_binary.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/lib/tests
+copying build/lib/vmad/lib/tests/test_mpi.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/lib/tests
+copying build/lib/vmad/lib/__init__.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/lib
+copying build/lib/vmad/lib/coarray.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/lib
+copying build/lib/vmad/lib/linalg.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/lib
+copying build/lib/vmad/lib/mpi.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/lib
+copying build/lib/vmad/lib/utils.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/lib
+copying build/lib/vmad/lib/unary.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/lib
+copying build/lib/vmad/testing.py -> /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/autooperator.py to autooperator.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/error.py to error.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/registry.py to registry.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/tape.py to tape.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/tests/test_model.py to test_model.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/tests/test_registry.py to test_registry.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/tests/test_operator.py to test_operator.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/tests/test_stdlib.py to test_stdlib.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/tests/__init__.py to __init__.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/tests/test_error.py to test_error.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/tests/test_autooperator.py to test_autooperator.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/tests/test_symbol.py to test_symbol.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/operator.py to operator.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/__init__.py to __init__.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/symbol.py to symbol.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/model.py to model.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/context.py to context.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/primitive.py to primitive.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/stdlib/__init__.py to __init__.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/stdlib/utils.py to utils.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/stdlib/operators.py to operators.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/stdlib/finite_operator.py to finite_operator.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/node.py to node.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/core/autodiff.py to autodiff.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/version.py to version.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/tests/__init__.py to __init__.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/tests/test_vmad3.py to test_vmad3.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/__init__.py to __init__.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/contrib/__init__.py to __init__.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/contrib/chisquare.py to chisquare.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/lib/fastpm.py to fastpm.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/lib/binary.py to binary.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/lib/tests/test_linalg.py to test_linalg.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/lib/tests/test_unary.py to test_unary.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/lib/tests/__init__.py to __init__.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/lib/tests/test_fastpm.py to test_fastpm.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/lib/tests/test_binary.py to test_binary.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/lib/tests/test_mpi.py to test_mpi.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/lib/__init__.py to __init__.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/lib/coarray.py to coarray.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/lib/linalg.py to linalg.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/lib/mpi.py to mpi.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/lib/utils.py to utils.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/lib/unary.py to unary.cpython-37.pyc
+byte-compiling /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad/testing.py to testing.cpython-37.pyc
+running install_egg_info
+running egg_info
+writing vmad.egg-info/PKG-INFO
+writing dependency_links to vmad.egg-info/dependency_links.txt
+writing requirements to vmad.egg-info/requires.txt
+writing top-level names to vmad.egg-info/top_level.txt
+reading manifest file 'vmad.egg-info/SOURCES.txt'
+writing manifest file 'vmad.egg-info/SOURCES.txt'
+Copying vmad.egg-info to /Users/maxlee/lensing_code/vmad/build/testenv/lib/python3.7/site-packages/vmad-0.0.1-py3.7.egg-info
+running install_scripts
+writing list of installed files to '/Users/maxlee/lensing_code/vmad/build/testenvtmp_install_log.txt'
+/Users/maxlee/anaconda3/envs/MADLens/lib/python3.7/distutils/dist.py:274: UserWarning: Unknown distribution option: 'maintainter'
+  warnings.warn(msg)
+/Users/maxlee/anaconda3/envs/MADLens/lib/python3.7/distutils/dist.py:274: UserWarning: Unknown distribution option: 'maintainter_email'
+  warnings.warn(msg)

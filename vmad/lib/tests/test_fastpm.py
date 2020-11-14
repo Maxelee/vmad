@@ -320,7 +320,7 @@ class Test_nbody(BaseScalarTest):
     epsilon = 1e-4
     def model(self, x):
         from nbodykit.cosmology import Planck15
-        dx, p, f = fastpm.nbody(fastpm.r2c(x), q=self.pos, stages=[0.1, 0.5, 1.0], pm=self.pm, cosmology=Planck15)
+        dx, p, f = fastpm.nbody(fastpm.r2c(x),Planck15.Om0,  q=self.pos, stages=[0.1, 0.5, 1.0], pm=self.pm, cosmology=Planck15)
         return linalg.stack([dx, p, f], axis=-1)
 
 class Test_fastpm(BaseScalarTest):
@@ -363,3 +363,13 @@ def test_add_scalar():
     assert_array_equal(y, 4)
     assert_array_equal(_x, 1)
     assert_array_equal(_n, (64, 0))
+
+
+def test_cosmofactory():
+    from vmad.lib.fastpm import CosmologyFactory
+
+    cosmo = CosmologyFactory()
+
+    assert cosmo.get_cosmology(.3, a=1) is not cosmo.get_cosmology(.4, a=1)
+    assert cosmo.get_cosmology(.3, a=1) is cosmo.get_cosmology(.3, a=1)
+
