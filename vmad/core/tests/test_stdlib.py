@@ -99,14 +99,13 @@ class Test_finite_vector(BaseVectorTest):
         c = finite_operator(x, lambda param: self.func(param), epsilon=1e-6)
         return c
 
-
-class Test_finite_vector_vector(BaseVectorTest):
-    x = numpy.arange(4)
-    y = numpy.arange(4)**2
+class Test_finite_vector2(BaseVectorTest):
+    x = numpy.array(5)
+    y = x**2
 
     @staticmethod
     def func(param):
-        return param**2
+        return param**2 
 
     def model(self, x):
         from vmad.core.stdlib import finite_operator

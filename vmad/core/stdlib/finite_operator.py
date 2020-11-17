@@ -54,7 +54,8 @@ class finite_operator:
 
     def jvp(node, psi_, psi, func, epsilon, mode='central'):
         delta = _finite_diff(psi, lambda x: func(x), epsilon, mode=mode)
-        print(delta.shape, psi.shape)
-        return dict(y_=np.einsum('i...,i...->...', delta, psi_))
-
-
+        if delta.ndim==0:
+            delta = np.broadcast_to(delta, 1)
+        if psi_.ndim==0:
+            psi_ = np.broadcast_to(psi_, 1)
+        return dict(y_=np.einsum('i... ,i...->...', delta, psi_))
