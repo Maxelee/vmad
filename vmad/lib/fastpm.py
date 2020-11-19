@@ -1,5 +1,5 @@
 from vmad import operator, autooperator
-from vmad.core.stdlib import watchpoint
+from vmad.core.stdlib import watchpoint, eval
 from vmad.lib import linalg
 
 from fastpm.background import MatterDominated
@@ -333,7 +333,7 @@ def fourier_space_laplace(k):
     k2[bad] = 0
     return k2
 
-@autooperator('rhok,q->dx1')
+@autooperator('rhok, q->dx1')
 def lpt1(rhok, q, pm):
     p = apply_transfer(rhok, fourier_space_laplace)
 
@@ -496,6 +496,34 @@ def leapfrog(dx_i, p_i, Om0, q, stages, pm):
     f = f * (1.5 * Om0)
     return dict(dx=dx, p=p, f=f)
 
+##################################LPT WORK AROUND FOR MADLENS###############
+@autooperator('rhok->dx1, dx2')
+def run_lpt(rhok, q, pm):
+    dx1, dx2 = lpt(rhok, q, pm)
+    return dict(dx1=dx1, dx2=dx2)
+
+def firststep_E(Om0, a, support, FactoryCache):
+    pt        = FactoryCache.get_cosmology(Om0, a=support)
+    E         = pt.E(a)
+    return E
+def firststep_D1(Om0, a, support, FactoryCache):
+    pt        = FactoryCache.get_cosmology(Om0, a=support)
+    D1        = pt.D1(a)
+    return D1
+def firststep_D2(Om0, a, support, FactoryCache):
+    pt        = FactoryCache.get_cosmology(Om0, a=support)
+    D2        = pt.D2(a)
+    return D2
+def firststep_f1(Om0, a, support, FactoryCache):
+    pt        = FactoryCache.get_cosmology(Om0, a=support)
+    f1        = pt.f1(a)
+    return f1
+def firststep_f2(Om0, a, support, FactoryCache):
+    pt        = FactoryCache.get_cosmology(Om0, a=support)
+    f2        = pt.f2(a)
+    return f2
+##########################################################################
+
 @autooperator('rhok->dx,p')
 def firststep(rhok, q, a, pt, pm):
 
@@ -517,17 +545,18 @@ def firststep(rhok, q, a, pt, pm):
     dx = dx1 + dx2
     return dict(dx=dx, p=p)
 
-@autooperator('rhok, Om0->dx,p,f')
-def nbody(rhok, Om0, q, stages, cosmology, pm):
+@autooperator('rhok->dx,p,f')
+def nbody(rhok, q, stages, cosmology, pm):
 
     stages = numpy.array(stages)
     mid = (stages[1:] * stages[:-1]) ** 0.5
     support = numpy.concatenate([mid, stages])
     support.sort()
-    pt = CosmologyFactory().get_cosmology(Om0, support)
+    pt = MatterDominated(cosmology.Om0, a=support)
+
     dx, p = firststep(rhok, q, stages[0], pt, pm)
 
-    dx, p, f = leapfrog(dx, p, Om0, q, stages, pm)
+    dx, p, f = leapfrog(dx, p, q, stages, pt, pm)
 
     return dict(dx=dx, p=p, f=f)
 
@@ -547,7 +576,6 @@ class cdot:
 
     def jvp(node, x1_, x2_, x1, x2):
         return dict(y_=x1.cdot(x2_).real + x2.cdot(x1_).real)
-
 class FastPMSimulation:
     def __init__(self, stages, cosmology, pm, B=1, q=None):
         if q is None:
@@ -555,11 +583,12 @@ class FastPMSimulation:
 
         stages = numpy.array(stages)
         mid = (stages[1:] * stages[:-1]) ** 0.5
-        self.support = numpy.concatenate([mid, stages])
-        self.support.sort()
-        self.pt = CosmologyFactory().get_cosmology(cosmology.Om0, self.support)
-        #self.pt = MatterDominated(cosmology.Om0, a=self.support)
+        support = numpy.concatenate([mid, stages])
+        support.sort()
+        self.support=support
+        pt = MatterDominated(cosmology.Om0, a=support)
         self.stages = stages
+        self.pt = pt
         self.pm = pm
         self.fpm = ParticleMesh(Nmesh=pm.Nmesh * B,
                         BoxSize=pm.BoxSize,
@@ -569,7 +598,7 @@ class FastPMSimulation:
         self.q = q
 
     def KickFactor(self, ai, ac, af):
-        pt=self.pt
+        pt = self.pt
         return 1 / (ac ** 2 * pt.E(ac)) * (pt.Gf(af) - pt.Gf(ai)) / pt.gf(ac)
 
     def DriftFactor(self, ai, ac, af):
@@ -580,7 +609,7 @@ class FastPMSimulation:
     def firststep(self, rhok):
         q = self.q
         pm = self.pm
-        pt = self.pt 
+        pt = self.pt
         a = self.stages[0]
 
         dx1, dx2 = lpt(rhok, q, pm)
@@ -639,9 +668,10 @@ class FastPMSimulation:
         dx, p = self.firststep(rhok)
 
         pt = self.pt
-        Om0 = pt.Om0
         stages = self.stages
         q = self.q
+
+        Om0 = pt.Om0
 
         f, potk = self.gravity(dx)
 
@@ -663,7 +693,5 @@ class FastPMSimulation:
             dp = f * (self.KickFactor(ac, af, af) * 1.5 * Om0)
             p = p + dp
 
-        f = f * (1.5 *Om0)
+        f = f * (1.5 * Om0)
         return dict(dx=dx, p=p, f=f)
-
-
