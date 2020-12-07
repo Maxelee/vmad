@@ -497,11 +497,6 @@ def leapfrog(dx_i, p_i, Om0, q, stages, pm):
     return dict(dx=dx, p=p, f=f)
 
 ##################################LPT WORK AROUND FOR MADLENS###############
-@autooperator('rhok->dx1, dx2')
-def run_lpt(rhok, q, pm):
-    dx1, dx2 = lpt(rhok, q, pm)
-    return dict(dx1=dx1, dx2=dx2)
-
 def firststep_E(Om0, a, support, FactoryCache):
     pt        = FactoryCache.get_cosmology(Om0, a=support)
     E         = pt.E(a)

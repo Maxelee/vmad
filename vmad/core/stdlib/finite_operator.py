@@ -49,7 +49,7 @@ class finite_operator:
 
     def vjp(node, _y, psi, func, epsilon, mode='central'):
         delta = _finite_diff(psi, lambda x: func(x), epsilon, mode=mode)
-        _psi = np.einsum('..., ...->...', delta, _y)
+        _psi = np.einsum('...,...->...', delta, _y)
         return dict(_psi=_psi)
 
     def jvp(node, psi_, psi, func, epsilon, mode='central'):
@@ -58,4 +58,4 @@ class finite_operator:
             delta = np.broadcast_to(delta, 1)
         if psi_.ndim==0:
             psi_ = np.broadcast_to(psi_, 1)
-        return dict(y_=np.einsum('i... ,i...->...', delta, psi_))
+        return np.einsum('i... ,i...->...', delta, psi_)
